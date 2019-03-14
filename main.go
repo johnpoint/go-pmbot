@@ -58,7 +58,7 @@ func main() {
 				update.Message.Chat.ID, update.Message.MessageID)
 			bot.Send(NewMsg)
 			bot.Send(NewMsgText)
-			msg.Text = "sended!"
+			msg.Text = "sent~"
 		case "status":
 			msg.Text = "alive~"
 		case "reply":

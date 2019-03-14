@@ -2,19 +2,30 @@ package main
 
 import (
 	"log"
+	"strconv"
 
+	"github.com/Unknwon/goconfig"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
 func main() {
-	var adminID int64 = 1
-	var botKey string = ""
+	cfg, err := goconfig.LoadConfigFile("config")
+	if err != nil {
+		panic("error!")
+	}
+	key, err := cfg.GetValue("config", "botKey")
+	id, err := cfg.GetValue("config", "adminID")
+	confDebug, err := cfg.GetValue("config", "debug")
+	boolDebug, err := strconv.ParseBool(confDebug)
+	id64, err := strconv.ParseInt(id, 10, 64)
+	var adminID int64 = id64
+	var botKey string = key
 	bot, err := tgbotapi.NewBotAPI(botKey)
 	if err != nil {
 		log.Panic(err)
 	}
 
-	bot.Debug = true
+	bot.Debug = boolDebug
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
